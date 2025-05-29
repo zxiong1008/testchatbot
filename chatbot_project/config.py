@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set "./assets" as the path where assets are stored, resolving the absolute pat
+h:
 ASSET_PATH = pathlib.Path(__file__).parent.resolve() / "assets"
 
 # Configure an root app logger that prints info level logs to stdout
@@ -37,8 +38,8 @@ def enable_telemetry(log_to_project: bool = False):
     if log_to_project:
         from azure.monitor.opentelemetry import configure_azure_monitor
 
-        project = AIProjectClient.from_connection_string(
-            conn_str=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
+        project = AIProjectClient(
+            connection_string=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
         )
         tracing_link = f"https://ai.azure.com/tracing?wsid=/subscriptions/{project.scope['subscription_id']}/resourceGroups/{project.scope['resource_group_name']}/providers/Microsoft.MachineLearningServices/workspaces/{project.scope['project_name']}"
         application_insights_connection_string = project.telemetry.get_connection_string()

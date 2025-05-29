@@ -31,8 +31,8 @@ from config import get_logger
 logger = get_logger(__name__)
 
 # create a project client using environment variables loaded from the .env file
-project = AIProjectClient.from_connection_string(
-    conn_str=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
+project = AIProjectClient(
+    connection_string=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
 )
 
 # create a vector embeddings client that will be used to generate vector embeddings
