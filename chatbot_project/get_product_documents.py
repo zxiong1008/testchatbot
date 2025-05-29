@@ -15,9 +15,10 @@ logger = get_logger(__name__)
 tracer = trace.get_tracer(__name__)
 
 # create a project client using environment variables loaded from the .env file
-project = AIProjectClient(
-    connection_string=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
-)
+project_connection_string = os.environ["AIPROJECT_CONNECTION_STRING"]
+# Assuming the connection string IS the endpoint URL based on user's latest feedback
+endpoint_url = project_connection_string
+project = AIProjectClient(endpoint=endpoint_url, credential=DefaultAzureCredential())
 
 # create a vector embeddings client that will be used to generate vector embeddings
 chat = project.inference.get_chat_completions_client()

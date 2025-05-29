@@ -38,9 +38,10 @@ def enable_telemetry(log_to_project: bool = False):
     if log_to_project:
         from azure.monitor.opentelemetry import configure_azure_monitor
 
-        project = AIProjectClient(
-            connection_string=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
-        )
+        project_connection_string = os.environ["AIPROJECT_CONNECTION_STRING"]
+        # Assuming the connection string IS the endpoint URL based on user's latest feedback
+        endpoint_url = project_connection_string
+        project = AIProjectClient(endpoint=endpoint_url, credential=DefaultAzureCredential())
         tracing_link = f"https://ai.azure.com/tracing?wsid=/subscriptions/{project.scope['subscription_id']}/resourceGroups/{project.scope['resource_group_name']}/providers/Microsoft.MachineLearningServices/workspaces/{project.scope['project_name']}"
         application_insights_connection_string = project.telemetry.get_connection_string()
         if not application_insights_connection_string:
